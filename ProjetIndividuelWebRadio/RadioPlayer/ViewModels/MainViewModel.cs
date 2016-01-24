@@ -10,10 +10,9 @@ using RadioPlayer.Infrastructure;
 using RadioPlayer.Models;
 using System.Windows.Input;
 
-/*
-      Exemple sur lequel je me suis appuyé pour faire la persistence et pouvoir sauvgarder et charger les radios channel
-      http://www.codeproject.com/Tips/343730/Persist-your-objects-settings-in-XML
- */
+    //Exmple to save into Appdata 
+  //    http://www.codeproject.com/Tips/343730/Persist-your-objects-settings-in-XML
+ //
 namespace RadioPlayer.ViewModels
 {
     public class MainViewModel : ViewModelBase
@@ -34,10 +33,9 @@ namespace RadioPlayer.ViewModels
             RadioChannels = LoadRadioChannels();
         }
 
- /*
-        http://stackoverflow.com/questions/867485/c-sharp-getting-the-path-of-appdata 
-        on utilise les variable d'environement pour faire la persistence 
- */
+
+      //  http://stackoverflow.com/questions/867485/c-sharp-getting-the-path-of-appdata 
+
         public string AppDataFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Channel.xml");
 
         public ObservableCollection<RadioChannel> RadioChannels { get; set; }
@@ -91,7 +89,7 @@ namespace RadioPlayer.ViewModels
             */
         private ObservableCollection<RadioChannel> LoadRadioChannels()
         {
-            //on charge à partir du ficher de la variable d'env les channels deja ajouté
+            //Loading From appdata channel 
             if (File.Exists(AppDataFile))
             {
                 using (var reader = new StreamReader(AppDataFile))
@@ -103,7 +101,7 @@ namespace RadioPlayer.ViewModels
                 }
             }
 
-            //ajouter les 2 radios qui seront par defauts dans la liste
+            //add 2 radios channel 
 
             return new ObservableCollection<RadioChannel>
             {
@@ -171,9 +169,6 @@ namespace RadioPlayer.ViewModels
             }
         }
 
-
-        //on sauvgagrde les channels ajoutés aupravant dans App_Data File de notre application
-        //ce fichier peu etre changé 
           private void SaveRadioChannels()
           {
             

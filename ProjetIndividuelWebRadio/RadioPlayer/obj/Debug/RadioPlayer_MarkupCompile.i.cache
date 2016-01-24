@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\WassimAjjali\Documents\Visual Studio 2015\Projects\ProjetIndividuelWebRadio\RadioPlayer\obj\Debug\
+C:\Users\WassimAjjali\Documents\Visual Studio 2015\Projects\Projet-individuel-\ProjetIndividuelWebRadio\RadioPlayer\obj\Debug\
 RadioPlayer
 none
 false
 DEBUG;TRACE
-C:\Users\WassimAjjali\Documents\Visual Studio 2015\Projects\ProjetIndividuelWebRadio\RadioPlayer\App.xaml
+C:\Users\WassimAjjali\Documents\Visual Studio 2015\Projects\Projet-individuel-\ProjetIndividuelWebRadio\RadioPlayer\App.xaml
 6-367551354
 
 18699909500
 162019157610
 ApplicationSpecificControls.xaml;Views\ChannelView.xaml;Windows\DialogWindow.xaml;Windows\MainWindow.xaml;Views\MainView.xaml;Windows\StandardWindow.xaml;
 
-False
+True
 

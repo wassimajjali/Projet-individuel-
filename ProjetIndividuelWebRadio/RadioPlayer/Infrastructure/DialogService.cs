@@ -9,9 +9,9 @@ using RadioPlayer.Windows;
 
 namespace RadioPlayer.Infrastructure
 {
-    /// <summary>
-    ///     Service for managing windows and showing common dialogs
-    /// </summary>
+    /// 
+    /// Exemple Msdn: Service for managing windows and showing common dialogs
+    /// 
     public class DialogService 
     {
         private static readonly object lockObject = new object();
@@ -72,29 +72,6 @@ namespace RadioPlayer.Infrastructure
         public MessageBoxResult ShowMessageBox(string message, string title = null, MessageBoxButton buttons = MessageBoxButton.OK, MessageBoxImage messageBoxImage = MessageBoxImage.None)
         {
             return MessageBox.Show(message, title, buttons, messageBoxImage);
-        }
-
-        public string ShowOpenFileDialog(string initialDirectory = null)
-        {
-            var dialog = new OpenFileDialog
-            {
-                InitialDirectory = initialDirectory,
-                Multiselect = false,
-                CheckFileExists = true,
-                Filter = "Torrent files|*.torrent;"
-            };
-
-            return dialog.ShowDialog() == true ? dialog.FileName : null;
-        }
-
-        public void ShowFileInExplorer(string path)
-        {
-            Process.Start("explorer.exe", "/select," + path);
-        }
-
-        public void OpenFile(string file)
-        {
-            Process.Start(file);
         }
 
         private Window GetWindow(ViewModelBase viewModel, bool isDialogWindow)
