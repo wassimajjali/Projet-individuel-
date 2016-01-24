@@ -1,0 +1,493 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RadioPlayer" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:viewModels="clr-namespace:RadioPlayer.ViewModels"
+                    xmlns:models="clr-namespace:RadioPlayer.Models"
+                    mc:Ignorable="d">
+
+    <Style x:Key="PlayButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Viewbox Stretch="Fill">
+                            <Grid Height="50" Width="50">
+                                <Ellipse Fill="#00F4F4F5" Stroke="#FF0056BD" StrokeThickness="3"/>
+
+                                <ed:RegularPolygon Fill="#FF0056BD" InnerRadius="1" PointCount="3" Stretch="Fill" Stroke="#FF0056BD" RenderTransformOrigin="0.5,0.5" Width="20" Height="15" Margin="16.5,17.5,13.5,17.5">
+                                    <ed:RegularPolygon.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="89.989"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </ed:RegularPolygon.RenderTransform>
+                                </ed:RegularPolygon>
+
+                            </Grid>
+
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PreviousButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="ellipse">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Viewbox x:Name="viewbox" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                            <Grid Height="50" Width="50">
+
+                                <Path Data="M10.486001,0.50086397 L19.487345,7.499136 10.488688,14.500864 z M0.5,0.50086397 L9.5013447,7.499136 0.50268936,14.500864 z M20.487345,0.5 L22.487345,0.5 22.487345,14.5 20.487345,14.5 z" Fill="#FF0056BD" Stretch="Fill" Stroke="#FF0056BD" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="15" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                                            <SkewTransform AngleY="0" AngleX="0"/>
+                                            <RotateTransform Angle="0"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+
+                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Stroke="#FF0056BD" StrokeThickness="3"/>
+
+                            </Grid>
+
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="NextButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="ellipse">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Viewbox x:Name="viewbox" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                            <Grid Height="50" Width="50">
+
+                                <Path Data="M10.486001,0.50086397 L19.487345,7.499136 10.488688,14.500864 z M0.5,0.50086397 L9.5013447,7.499136 0.50268936,14.500864 z M20.487345,0.5 L22.487345,0.5 22.487345,14.5 20.487345,14.5 z" Fill="#FF0056BD" Stretch="Fill" Stroke="#FF0056BD" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="15" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                            <SkewTransform AngleY="0" AngleX="0"/>
+                                            <RotateTransform Angle="0"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+
+                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Stroke="#FF0056BD" StrokeThickness="3"/>
+
+                            </Grid>
+
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <DataTemplate x:Key="MetroListBoxItemTemplate">
+        <Grid>
+            <StackPanel Margin="5">
+                <TextBlock Text="{Binding ChannelName, FallbackValue=Title}" FontFamily="Segoe UI Light" FontSize="20" 
+                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem, Mode=FindAncestor}, Path=Foreground}"
+                           d:DataContext="{d:DesignInstance {x:Type models:RadioChannel}}" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+    <Style x:Key="MetroListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Padding" Value="4,1"/>
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsSelected" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="#FFB9B9B9"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
+                            <Setter Property="Foreground" Value="Black" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsSelected" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="{x:Null}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
+                            <Setter Property="Foreground" Value="Black" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="#FF0072C6"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TogglePlayStopButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Viewbox Stretch="Fill">
+                            <Grid Height="50" Width="50">
+                                <Ellipse Fill="#00F4F4F5" Stroke="#FF0056BD" StrokeThickness="3"/>
+
+                                <ed:RegularPolygon Fill="#FF0056BD" InnerRadius="1" PointCount="3" Stretch="Fill" Stroke="#FF0056BD" RenderTransformOrigin="0.5,0.5" Width="20" Height="15" Margin="16.5,17.5,13.5,17.5">
+                                    <ed:RegularPolygon.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="89.989"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </ed:RegularPolygon.RenderTransform>
+                                </ed:RegularPolygon>
+                                <Rectangle Fill="#FF0056BD" Stroke="#FF0056BD" Width="20" Height="20"/>
+
+                            </Grid>
+
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="PlayStopToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="ellipse">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="rectangle">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="regularPolygon">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked"/>
+                                <VisualState x:Name="Indeterminate"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Viewbox x:Name="viewbox" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                            <Grid Height="50" Width="50">
+                                <Ellipse x:Name="ellipse" Fill="#00F4F4F5" Stroke="#FF0056BD" StrokeThickness="3"/>
+
+                                <ed:RegularPolygon x:Name="regularPolygon" Fill="#FF0056BD" InnerRadius="1" PointCount="3" Stretch="Fill" Stroke="#FF0056BD" RenderTransformOrigin="0.5,0.5" Width="20" Height="15" Margin="16.5,17.5,13.5,17.5">
+                                    <ed:RegularPolygon.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="89.989"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </ed:RegularPolygon.RenderTransform>
+                                </ed:RegularPolygon>
+                                <Rectangle x:Name="rectangle" Fill="#FF0056BD" Stroke="#FF0056BD" Width="17" Height="17" Visibility="Collapsed"/>
+
+                            </Grid>
+
+                        </Viewbox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="AddButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="89.981"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="ellipse">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Viewbox x:Name="viewbox" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                            <Grid Height="20" Width="20">
+                                <Path Fill="#FF0056BD" Stroke="#FF0056BD" Data="M5.0025992,0.5 L7.0025992,0.5 7.0025992,5.0026145 11.505198,5.0144024 11.499962,7.0143957 7.0025992,7.0026217 7.0025992,11.5 5.0025992,11.5 5.0025992,6.9973855 0.5,6.9855976 0.50523615,4.9856043 5.0025992,4.9973783 z" Margin="4" RenderTransformOrigin="0.5,0.5" Stretch="Fill">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform Angle="89.952"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <Ellipse x:Name="ellipse" Fill="#000056BD" Stroke="#FF0056BD"/>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="RemoveButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="89.981"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="ellipse">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="2"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.95"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Viewbox x:Name="viewbox" Stretch="Fill" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                            <Grid Height="20" Width="20">
+                                <Ellipse x:Name="ellipse" Fill="#000056BD" Stroke="#FF0056BD"/>
+                                <Path Data="M0.5,0.5 L2.5,0.5 L2.5,11.5 L0.5,11.5 z" Fill="#FF0056BD" Height="12" Stretch="Fill" Stroke="#FF0056BD" Width="3" />
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True"/>
+                        <Trigger Property="IsDefaulted" Value="True"/>
+                        <Trigger Property="IsMouseOver" Value="True"/>
+                        <Trigger Property="IsPressed" Value="True"/>
+                        <Trigger Property="IsEnabled" Value="False"/>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
